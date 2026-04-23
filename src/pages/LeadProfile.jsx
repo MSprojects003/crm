@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { createPageUrl } from "@/utils";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import ActionBar from "@/components/lead-profile/ActionBar.jsx";
 import AccountInformationCard from "@/components/lead-profile/AccountInformationCard.jsx";
 import LeadStatusCard from "@/components/lead-profile/LeadStatusCard.jsx";

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from '@/lib/AuthContext';
 import {
   LayoutDashboard,
   Users,
@@ -33,7 +34,7 @@ const allNavItems = [
 ];
 
 export default function Layout({ children, currentPageName }) {
-  const [user, setUser] = useState(null);
+  const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
@@ -49,19 +50,13 @@ export default function Layout({ children, currentPageName }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    base44.auth.me()
-      .then(setUser)
-      .catch(() => base44.auth.redirectToLogin(window.location.origin));
-  }, []);
-
   const navItems = allNavItems.filter((item) => {
     if (!item.permission) return true;
     if (item.permission === "ADMIN_ONLY") return user?.role === "admin";
     return false;
   });
 
-  const handleLogout = () => base44.auth.logout();
+  const handleLogout = () => logout();
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { fmtSLT } from "@/components/utils/timezone";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import { Button } from "@/components/ui/button";
 import { Download, Phone, Activity } from "lucide-react";
 import ActivityFilters from "@/components/activities/ActivityFilters";

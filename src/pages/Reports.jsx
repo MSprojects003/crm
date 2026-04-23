@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import ReportsFilters from "@/components/reports/ReportsFilters";
 import CallPerformanceSection from "@/components/reports/CallPerformanceSection";
 import RevenuePerformanceSection from "@/components/reports/RevenuePerformanceSection";

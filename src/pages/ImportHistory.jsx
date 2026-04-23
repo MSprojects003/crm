@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Download, Eye, Trash2 } from "lucide-react";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import ImportDetailsModal from "@/components/imports/ImportDetailsModal";
 
 export default function ImportHistory() {

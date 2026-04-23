@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import AgentMetricsFilters from "@/components/agent-dashboard/AgentMetricsFilters";
 import AgentPerformanceGrid from "@/components/agent-dashboard/AgentPerformanceGrid";
 import AgentStatusBreakdown from "@/components/agent-dashboard/AgentStatusBreakdown";

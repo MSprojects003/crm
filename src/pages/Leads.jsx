@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Plus, LayoutList, Columns, Zap, Upload, ChevronDown, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import { toast } from "sonner";
 import LeadFilters from "@/components/leads/LeadFilters";
 import LeadTableView from "@/components/leads/LeadTableView";

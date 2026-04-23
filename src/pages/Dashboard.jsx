@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 
 import AgentDashboard from "@/components/reports/AgentDashboard";
 import AdminDashboard from "@/components/reports/AdminDashboard";

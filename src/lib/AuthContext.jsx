@@ -1,7 +1,31 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { appParams, getAppParamValue } from '@/lib/app-params';
+import { appParams } from '@/lib/app-params';
 import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
+
+// Role-based permissions (moved from auth.jsx)
+const PERMISSIONS = {
+  VIEW_ALL_LEADS: (user) => isAdmin(user),
+  VIEW_ASSIGNED_LEADS: (user) => true,
+  ASSIGN_LEADS: (user) => isAdmin(user),
+  DELETE_LEADS: (user) => isAdmin(user),
+  VIEW_ALL_ACTIVITIES: (user) => isAdmin(user),
+  ADD_ACTIVITY: (user) => true,
+  SCHEDULE_REMINDER: (user) => true,
+  VIEW_ALL_REPORTS: (user) => isAdmin(user),
+  VIEW_OWN_PERFORMANCE: (user) => true,
+  MANAGE_SETTINGS: (user) => isAdmin(user),
+  MANAGE_ACCESS_CONTROL: (user) => isAdmin(user),
+  VIEW_DEPOSITS: (user) => true,
+  ADD_DEPOSIT: (user) => true,
+};
+
+const isAdmin = (user) => user?.role?.toLowerCase() === "admin";
+
+function can(user, permission) {
+  const check = PERMISSIONS[permission];
+  return check ? check(user) : false;
+}
 
 const AuthContext = createContext();
 
@@ -22,18 +46,13 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingPublicSettings(true);
       setAuthError(null);
       
-      // Get current token (check both URL params and localStorage)
-      const currentToken = getAppParamValue("access_token", { removeFromUrl: true }) || 
-                          localStorage.getItem('base44_access_token');
-      
-      // First, check app public settings (with token if available)
-      // This will tell us if auth is required, user not registered, etc.
+      // First, check app public settings (SDK will handle token automatically)
       const appClient = createAxiosClient({
         baseURL: `/api/apps/public`,
         headers: {
           'X-App-Id': appParams.appId
         },
-        token: currentToken, // Include token if available
+        // Let the SDK handle token management automatically
         interceptResponses: true
       });
       
@@ -41,13 +60,8 @@ export const AuthProvider = ({ children }) => {
         const publicSettings = await appClient.get(`/prod/public-settings/by-id/${appParams.appId}`);
         setAppPublicSettings(publicSettings);
         
-        // If we got the app public settings successfully, check if user is authenticated
-        if (currentToken) {
-          await checkUserAuth();
-        } else {
-          setIsLoadingAuth(false);
-          setIsAuthenticated(false);
-        }
+        // Check if user is authenticated using SDK's built-in token management
+        await checkUserAuth();
         setIsLoadingPublicSettings(false);
       } catch (appError) {
         console.error('App state check failed:', appError);
@@ -142,7 +156,9 @@ export const AuthProvider = ({ children }) => {
       appPublicSettings,
       logout,
       navigateToLogin,
-      checkAppState
+      checkAppState,
+      isAdmin: isAdmin(user),
+      can: (permission) => can(user, permission),
     }}>
       {children}
     </AuthContext.Provider>

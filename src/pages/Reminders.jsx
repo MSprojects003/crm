@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bell, AlertTriangle, CheckCircle, Clock, CalendarDays } from "lucide-react";
-import useAuth from "@/components/auth/useAuth";
+import { useAuth } from '@/lib/AuthContext';
 import ReminderCard from "@/components/reminders/ReminderCard";
 import LiveCallScreen from "@/components/call/LiveCallScreen";
 import DispositionModal from "@/components/call/DispositionModal";
