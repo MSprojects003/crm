@@ -49,6 +49,8 @@ const getAppParams = () => {
 }
 
 
+export { getAppParamValue };
+
 export const appParams = {
 	...getAppParams()
 }
