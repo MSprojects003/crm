@@ -9,7 +9,7 @@ export default function useAuth() {
   useEffect(() => {
     base44.auth.me()
       .then(setUser)
-      .catch(() => base44.auth.redirectToLogin())
+      .catch(() => base44.auth.redirectToLogin(window.location.origin))
       .finally(() => setLoading(false));
   }, []);
 
